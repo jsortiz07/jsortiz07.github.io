@@ -1,0 +1,511 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+
+}
+
+h2 {
+    margin: 10px 10px;
+    color: white;
+    text-align: center;
+}
+
+p {
+    margin-left: 10px;
+    padding: 4px 4px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #06A406;
+    color: #000;
+    padding: 0px;
+    border: 4px solid #000;
+    border-radius: 1px;
+    overflow: hidden;
+
+}
+
+.navbar a {
+    float: left;
+    font-size: 16px;
+    color: white;
+    /* Color del texto de los enlaces */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    /* Cambio de color de fondo al pasar el mouse por encima */
+    color: black;
+    /* Cambio de color de texto al pasar el mouse por encima */
+}
+
+
+
+.right-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 40px;
+    
+
+}
+
+
+
+/*Botones*/
+#homeButton {
+    display: flex;
+    align-items: center;
+    border: 2px solid #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+}
+
+#supportButton {
+   
+    border: 2px solid #000;
+    color: #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    margin: 10px;
+    background-color: #fff;
+}
+
+#contactButton {
+    
+    border: 2px solid #000;
+    color: #000;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.8);
+    background-color: #fff;
+}
+
+#supportButton:hover , #contactButton:hover{
+    background-color:#ddd;
+    /* Cambio de color de fondo al pasar el mouse por encima */
+    color: black;
+    /* Cambio de color de texto al pasar el mouse por encima */
+}
+
+#homeButton img {
+    width: 70px;
+    height: 70px;
+    margin-right: 7px;
+    padding: 0;
+}
+
+.text-boton{
+
+    text-align: center;
+   
+    background-color: #ddd;
+    color: black;
+    margin: 0px 170px 0px;
+    width: 170px;
+    height: 30px;
+    padding-top: 15px;
+    border-radius: 4px;
+    
+}
+
+/*Miga de pan*/
+.breadcrumb {
+    background-color: #f1f1f1;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+    color: #333;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.breadcrumb span {
+    color: #999;
+}
+
+.panel_principal {
+    position: relative;
+    border: 2px solid #000;
+    width: 500;
+    height: 490px;
+    margin: 40px 40px;
+}
+
+.contenido {
+    border: 2px solid #000;
+    width: 300;
+    height: 400px;
+    margin: 10px 10px;
+    font-size: 20px;
+}
+
+.contenido-black {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    grid-gap: 10px;
+    background-color: #000;
+    grid-auto-rows: 500px;
+    color: white;
+
+}
+
+.contenido-black-2 {
+  
+    background-color: #000;
+    width: 500;
+    height: 490px;
+    position: relative;
+
+
+
+}
+
+.contenido-black-context {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: #000;
+    text-align: center;
+    /*align-content: space-around;*/
+   
+   align-items: center;
+}
+
+.contenido-black-context-2 {
+    display: flex;
+    background-color: #000;
+    text-align: center;
+}
+
+
+
+.contenido-black-componentes{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    background-color: #000;
+   
+   
+}
+
+.grid-item {
+    border-right: 1px solid white;
+    padding: 0px;
+    margin: 0px;
+    width: auto;
+    height: auto;
+    text-align: center;
+    background-color: #000;
+    align-content: center;
+  }
+
+.contenido-black h2 {
+    color: #ddd;
+    text-align: center;
+}
+
+.contenido-black-2 h2 {
+    color: #ddd;
+    
+}
+
+.descripcion-component{
+    display: flex;
+    color: #000;
+    margin-top: 70px;
+    margin-right: 5px;
+    align-items: center;
+    flex: 1;
+    vertical-align: middle;
+    text-align: justify;
+    background: white;
+  
+}
+
+.container-desc{
+    display: flex;
+    position: relative;
+   
+    
+}
+
+.tituloh2{
+
+    text-align: center;
+    margin: 0;
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #30A3F7;
+    padding: 4px 4px;
+}
+
+.row {
+    display: flex; /* Utiliza flexbox para organizar los elementos en filas */
+  }
+/*
+.contenido-black img {
+    max-width: 100%;
+    height: auto;
+    grid-column: 1;
+}
+
+*/
+.imgcomponente {
+    max-width: 100%;
+    height: 600px;
+    grid-column: 1;
+}
+
+.torregb {
+
+    width: 240px;
+    height: 300px;
+    grid-column: 1;
+    margin: 20px;
+}
+
+.torregm {
+    width: 240px;
+    height: 300px;
+    grid-column: 2;
+    margin: 20px;
+}
+
+.torrega {
+    width: 240px;
+    height: 300px;
+    grid-column: 3;
+    margin: 20px;
+}
+
+.img-content{
+    width: 300px;
+    height: 300px;
+}
+
+.content-img{
+    
+    margin-right: 5px;
+    align-items: center;
+    flex: 1;
+}
+
+.contenido-black table {
+    max-width: 100%;
+    border-collapse: collapse;
+}
+
+.contenido-black th,
+.contenido-black td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: left;
+}
+
+#menu {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+
+}
+
+/*Estilos tabla*/
+
+.bordered-table {
+    border-collapse: collapse;
+    width: 100%;
+    float: left;
+}
+
+.bordered-table th,
+.bordered-table td {
+    border: 1px solid white;
+    padding: 8px;
+    text-align: left;
+    color: #ddd;
+}
+
+.bordered-table th {
+    background-color: #f1f1f1;
+    color: #333;
+}
+
+/*Boton flecha*/
+
+.btn {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: relative;
+    top: 68%;
+    left: 85%;
+   /* transform: translateX(-50%);*/
+}
+
+.btn_gabinetes {
+    background-color: white;
+    border: none;
+    color: black;
+    padding: 12px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 101%;
+    left: 85%;
+   /* transform: translateX(-50%);*/
+}
+
+.btn:hover {
+    background-color: #ddd;
+}
+
+
+/*Boton soporte*/
+
+ /* Estilos para el botón del menú desplegable */
+/* Estilos para el botón del menú desplegable */
+/* Estilos para el botón del menú desplegable */
+/* Estilos para el botón del menú desplegable */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+    z-index: 2; /* Ajuste el z-index si es necesario */
+}
+
+/* Ajuste de estilos para asegurar la visibilidad en el iframe */
+iframe {
+    z-index: 0; /* Ajuste el z-index si es necesario */
+}
+
+
+
+
+
+
+
+/*Animacion footer*/
+.game-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background-color: #f2f2f2;
+  }
+  
+  .character {
+    width: 50px;
+  height: 40px;
+  background-image: url('img/marciano.png');
+  background-size: cover;
+  border-radius: 60%;
+  position: absolute;
+  bottom: 0;
+  animation: character-animation 5s infinite;
+  }
+  
+  .character1 {
+    left: 20%;
+  }
+  
+  .character2 {
+    left: 50%;
+  }
+  
+  .character3 {
+    left: 80%;
+  }
+  
+  @keyframes character-animation {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-50px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+/*Estrellas*/
+  .star-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    perspective: 1000px;
+  }
+  
+  .star {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: #a4c639;
+    transform-origin: center center;
+    animation: star-animation 5s infinite;
+  }
+  
+  @keyframes star-animation {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+  
+  
