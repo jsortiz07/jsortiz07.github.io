@@ -26,7 +26,8 @@
                 height: 1400,
                 scene: {
                     preload: preload,
-                    create: create
+                    create: create,
+                    update, update
                 }
             };
 
@@ -43,6 +44,7 @@
             var ram1;
             var ram2;
             var disipador;
+            var disipadorZone;
 
             function preload() {
                 // Carga de imágenes
@@ -52,7 +54,23 @@
                 this.load.image('gpu', 'assets/gpuvertical.png');
                 this.load.image('ram1', 'assets/ram1.png');
                 this.load.image('ram2', 'assets/ram2.png');
+                this.load.image('disipador', 'assets/disipador.png');
             }
+            var completionTextPrueba;
+            var cpuInZone = false;
+            var motherboardInZone = false;
+            var gpuInZone = false;
+            var ram1InZone = false;
+            var ram2InZone = false;
+            var allComponentsInZone = false; // Variable para verificar si todos los componentes están en la zona
+
+
+            // Función para verificar si todos los objetos están en la zona
+            /*function checkAssemblyCompletion() {
+                if (cpuInZone && motherboardInZone && gpuInZone && ram1InZone && ram2InZone) {
+                    allComponentsInZone = true;
+                }
+            }*/
 
             function create() {
 
@@ -83,7 +101,8 @@
                 gpu = this.add.image(1300, 900, 'gpu');
                 ram1 = this.add.image(1300, 900, 'ram1');
                 ram2 = this.add.image(1200, 900, 'ram2');
-                disipador = this.add.image(1200, 900, 'ram2');
+                disipador = this.add.image(1200, 900, 'disipador');
+                disipador.setDisplaySize(300, 300); // Establecer un ancho de 100 y un alto de 100
 
                 // Habilitar arrastrar y soltar para componentes
                 motherboard.setInteractive({ draggable: true });
@@ -91,6 +110,7 @@
                 gpu.setInteractive({ draggable: true });
                 ram1.setInteractive({ draggable: true });
                 ram2.setInteractive({ draggable: true });
+                disipador.setInteractive({ draggable: true });
 
                 // Crear un gráfico de geometría para el área sombreada de la CPU
                 var graphics = this.add.graphics();
@@ -122,6 +142,12 @@
                 graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
                 graphics.fillCircleShape(ram2Zone); // Dibuja el círculo
 
+                // Crear un gráfico de geometría para el área sombreada del disipador
+                var graphics = this.add.graphics();
+                disipadorZone = new Phaser.Geom.Circle(390, 500, 50); // Crea un círculo alrededor de la CPU
+                graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
+                graphics.fillCircleShape(disipadorZone); // Dibuja el círculo
+
                 // Agrega el gráfico al escenario
                 this.add.existing(graphics);
 
@@ -130,9 +156,10 @@
                 this.input.setDraggable(gpu);
                 this.input.setDraggable(ram1);
                 this.input.setDraggable(ram2);
+                this.input.setDraggable(disipador);
 
 
-                // Función de verificación y ajuste automático solo para la CPU
+                // Función de verificación y ajuste automático solo para los componentes
                 this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
                     if (gameObject === cpu) {
                         gameObject.x = dragX;
@@ -143,9 +170,10 @@
 
                         if (distance < 50) { // Ajusta este valor según la distancia deseada
                             // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
-                            gameObject.x = cpuZone.x ;
-                            gameObject.y = cpuZone.y ;
+                            gameObject.x = cpuZone.x;
+                            gameObject.y = cpuZone.y;
                             text.setText('¡CPU en la posición de verificación!');
+                            console.log('zone que contiene: ' + cpuZone);
                         } else {
 
                             text.setText('CPU fuera de posicion');
@@ -162,8 +190,8 @@
 
                         if (distanceMotherboard < 50) { // Ajusta este valor según la distancia deseada
                             // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
-                            gameObject.x = boardZone.x ;
-                            gameObject.y = boardZone.y ;
+                            gameObject.x = boardZone.x;
+                            gameObject.y = boardZone.y;
                             text.setText('Board en  la posición de verificación!');
                         } else {
 
@@ -181,8 +209,8 @@
 
                         if (distancegpu < 50) { // Ajusta este valor según la distancia deseada
                             // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
-                            gameObject.x = gpuZone.x ;
-                            gameObject.y = gpuZone.y ;
+                            gameObject.x = gpuZone.x;
+                            gameObject.y = gpuZone.y;
                             text.setText('GPU en  la posición de verificación!');
                         } else {
 
@@ -201,8 +229,8 @@
 
                         if (distanceRam1 < 50) { // Ajusta este valor según la distancia deseada
                             // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
-                            gameObject.x = ram1Zone.x ;
-                            gameObject.y = ram1Zone.y ;
+                            gameObject.x = ram1Zone.x;
+                            gameObject.y = ram1Zone.y;
                             text.setText('RAM1 en  la posición de verificación!');
                         } else {
 
@@ -221,8 +249,8 @@
 
                         if (distanceRam2 < 50) { // Ajusta este valor según la distancia deseada
                             // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
-                            gameObject.x = ram2Zone.x ;
-                            gameObject.y = ram2Zone.y ;
+                            gameObject.x = ram2Zone.x;
+                            gameObject.y = ram2Zone.y;
                             text.setText('RAM2 en la posición de verificación!');
                         } else {
 
@@ -233,35 +261,64 @@
 
 
                     }
+
+                    if (gameObject === disipador) {
+                        gameObject.x = dragX;
+                        gameObject.y = dragY;
+
+                        // Verifica la distancia entre la CPU y la posición de verificación
+                        var distanceDisipador = Phaser.Math.Distance.Between(disipador.x, disipador.y, disipadorZone.x, disipadorZone.y);
+
+                        if (distanceDisipador < 50) { // Ajusta este valor según la distancia deseada
+                            // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
+                            gameObject.x = disipadorZone.x;
+                            gameObject.y = disipadorZone.y;
+                            text.setText('DISIPADOR en la posición de verificación!');
+                        } else {
+
+                            text.setText('DISIPADOR fuera de posicion');
+
+                        }
+
+
+
+                    }
+
                 });
 
-                this.input.on('dragend', function () {
-                    checkCompletion();
+                // Verificar cuando los componentes estén en su posición
+                this.input.on('dragend', function (pointer, gameObject, dropped) {
+                    
+                        // Verificar si todos los componentes están en su posición y mostrar el mensaje de ensamblaje completo
+                        if (cpu.x === cpuZone.x /* posición correcta */ && cpu.y === cpuZone.y /* posición correcta */ &&
+                            motherboard.x === boardZone.x/* posición correcta */ && motherboard.y === boardZone.y/* posición correcta */ 
+                            && gpu.x === gpuZone.x && gpu.y === gpuZone.y  && ram1.x === ram1Zone.x && ram1.y === ram1Zone.y   
+                            && ram2.x === ram2Zone.x && ram2.y === ram2Zone.y  && disipador.x === disipadorZone.x && disipador.y === disipador.y) {
+                            // Mostrar mensaje de ensamblaje completo
+                            console.log('Ensamblaje completo');
+                            text.setText('ENSAMBLAJE COMPLETO');
+                        }
+                    
                 });
+
             }
 
-              
+            function update() {
+                // Mostrar el mensaje "Ensamblado completo" si todos los componentes están en la zona
 
-            
+                /*this.input.on('dragend', function () {
 
-            function checkCompletion() {
-                if (
-                    isPartInZone(cpu, cpuZone) &&
-                    isPartInZone(motherboard, boardZone) &&
-                    isPartInZone(gpu, gpuZone) &&
-                    isPartInZone(ram1, ram1Zone) &&
-                    isPartInZone(ram2, ram2Zone)
-                ) {
-                    text.setText('¡Ensamblaje completo!');
-                } else {
-                    completionText.setText('');
+
+                   // checkAssemblyCompletion();
+                });*/
+
+                if (allComponentsInZone) {
+                    completionText.setText('Ensamblado completo');
+                    console.log("Ensamblado completo");
                 }
             }
 
-            function isPartInZone(part, zone) {
-                var distance = Phaser.Math.Distance.Between(part.x, part.y, zone.x, zone.y);
-                return distance < 10; // Ajusta este valor según la distancia deseada
-            }
+
 
         </script>
     </div>
