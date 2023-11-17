@@ -112,6 +112,45 @@ p {
     
 }
 
+
+/*--------------------------------------------------------------------------*/
+
+/*Formulario contactanos*/
+.custom-container {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Agregar estilos específicos para el contenedor del formulario */
+  }
+
+  input[type="text"],
+input[type="email"],
+textarea {
+  width: 98%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.button-contactame{
+    width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #4caf50;
+  color: #fff;
+  cursor: pointer;
+}
+
+.button-contactame:hover {
+    background-color: #45a049;
+  }
+
+
+
+
 /*Miga de pan*/
 .breadcrumb {
     background-color: #f1f1f1;

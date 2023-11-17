@@ -15,4 +15,12 @@ function toggleDropdown() {
       }
     }
   }
+
+  // envio formulario contactanos
+
+  document.getElementById('contactForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    // Aquí puedes agregar la lógica para enviar el formulario, como una solicitud HTTP o un mensaje de confirmación
+    alert('Formulario enviado');
+  });
   
