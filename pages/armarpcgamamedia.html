@@ -26,7 +26,8 @@
                 height: 1400,
                 scene: {
                     preload: preload,
-                    create: create
+                    create: create,
+                    changeText: changeText
                 }
             };
 
@@ -44,6 +45,19 @@
             var ram2;
             var disipador;
             var disipadorZone;
+            var psu;
+            var psuZone;
+
+            //mensajes aleatoreos
+            var messages = [
+                '* Asegurate de tener la crema discipadora',
+                '* Las rams van en los slots verticales',
+                '* Ordenar los cables de la fuente de poder por el respaldo de la case',
+                '* No olvidar conectar los cables de poder a la board',
+                
+            ];
+
+            var currentMessageIndex = 0;
 
             function preload() {
                 // Carga de imágenes
@@ -54,6 +68,7 @@
                 this.load.image('ram1', '../assets/ram1.PNG');
                 this.load.image('ram2', '../assets/ram2.PNG');
                 this.load.image('disipador', '../assets/disipador.png');
+                this.load.image('psu', '../assets/psu.png');
             }
 
             // Función para verificar si todos los objetos están en la zona
@@ -64,6 +79,8 @@
             }*/
 
             function create() {
+
+
 
                 //  // Agregar instrucciones de texto
                 var instructionsText = this.add.text(20, 20, '*Arrastra y suelta los componentes en las áreas sombreadas.', {
@@ -76,14 +93,19 @@
                     fill: 'red'
                 });
 
-                var completionText = this.add.text(20, 30, '', {
+                var completionText = this.add.text(20, 50, '', {
                     fontSize: '20px',
                     fill: '#ffffff'
                 });
 
+                statusText = this.add.text(20, 64, '', {
+                    fontSize: '27px',
+                    fill: '#07E90E'
+                });
+
 
                 if (!text) {
-                    text = this.add.text(117, 85, '', { fontSize: '32px', fill: '#ffffff' }); // Cambia el valor de fill a '#ffffff'
+                    text = this.add.text(117, 100, '', { fontSize: '32px', fill: '#ffffff' }); // Cambia el valor de fill a '#ffffff'
                 }
 
                 // Agregar la carcasa
@@ -98,7 +120,8 @@
                 ram1 = this.add.image(1300, 900, 'ram1');
                 ram2 = this.add.image(1200, 900, 'ram2');
                 disipador = this.add.image(1200, 900, 'disipador');
-                disipador.setDisplaySize(300, 300); // Establecer un ancho de 100 y un alto de 100
+                disipador.setDisplaySize(280, 280); // Establecer un ancho de 100 y un alto de 100
+                psu = this.add.image(1200, 1200, 'psu');
 
                 // Habilitar arrastrar y soltar para componentes
                 motherboard.setInteractive({ draggable: true });
@@ -107,6 +130,7 @@
                 ram1.setInteractive({ draggable: true });
                 ram2.setInteractive({ draggable: true });
                 disipador.setInteractive({ draggable: true });
+                psu.setInteractive({ draggable: true });
 
                 // Crear un gráfico de geometría para el área sombreada de la CPU
                 var graphics = this.add.graphics();
@@ -144,6 +168,12 @@
                 graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
                 graphics.fillCircleShape(disipadorZone); // Dibuja el círculo
 
+                // Crear un gráfico de geometría para el área sombreada del psu
+                var graphics = this.add.graphics();
+                psuZone = new Phaser.Geom.Circle(160, 380, 50); // Crea un círculo alrededor de la CPU
+                graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
+                graphics.fillCircleShape(psuZone); // Dibuja el círculo
+
                 // Agrega el gráfico al escenario
                 this.add.existing(graphics);
 
@@ -153,6 +183,7 @@
                 this.input.setDraggable(ram1);
                 this.input.setDraggable(ram2);
                 this.input.setDraggable(disipador);
+                this.input.setDraggable(psu);
 
 
                 // Función de verificación y ajuste automático solo para los componentes
@@ -280,24 +311,62 @@
 
                     }
 
+                    if (gameObject === psu) {
+                        gameObject.x = dragX;
+                        gameObject.y = dragY;
+
+                        // Verifica la distancia entre la CPU y la posición de verificación
+                        var distancePsu = Phaser.Math.Distance.Between(psu.x, psu.y, psuZone.x, psuZone.y);
+
+                        if (distancePsu < 50) { // Ajusta este valor según la distancia deseada
+                            // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
+                            gameObject.x = psuZone.x;
+                            gameObject.y = psuZone.y;
+                            text.setText('DISIPADOR en la posición de verificación!');
+                        } else {
+
+                            text.setText('DISIPADOR fuera de posicion');
+
+                        }
+
+
+
+                    }
+
                 });
 
                 // Verificar cuando los componentes estén en su posición
                 this.input.on('dragend', function (pointer, gameObject, dropped) {
-                    
-                        // Verificar si todos los componentes están en su posición y mostrar el mensaje de ensamblaje completo
-                        if (cpu.x === cpuZone.x /* posición correcta */ && cpu.y === cpuZone.y /* posición correcta */ &&
-                            motherboard.x === boardZone.x/* posición correcta */ && motherboard.y === boardZone.y/* posición correcta */ 
-                            && gpu.x === gpuZone.x && gpu.y === gpuZone.y  && ram1.x === ram1Zone.x && ram1.y === ram1Zone.y   
-                            && ram2.x === ram2Zone.x && ram2.y === ram2Zone.y  && disipador.x === disipadorZone.x && disipador.y === disipador.y) {
-                            // Mostrar mensaje de ensamblaje completo
-                            console.log('Ensamblaje completo');
-                            text.setText('ENSAMBLAJE COMPLETO');
-                        }
-                    
+
+                    // Verificar si todos los componentes están en su posición y mostrar el mensaje de ensamblaje completo
+                    if (cpu.x === cpuZone.x /* posición correcta */ && cpu.y === cpuZone.y /* posición correcta */ &&
+                        motherboard.x === boardZone.x/* posición correcta */ && motherboard.y === boardZone.y/* posición correcta */
+                        && gpu.x === gpuZone.x && gpu.y === gpuZone.y && ram1.x === ram1Zone.x && ram1.y === ram1Zone.y
+                        && ram2.x === ram2Zone.x && ram2.y === ram2Zone.y && disipador.x === disipadorZone.x && disipador.y === disipador.y) {
+                        // Mostrar mensaje de ensamblaje completo
+                        console.log('Ensamblaje completo');
+                        text.setText('ENSAMBLAJE COMPLETO');
+                    }
+
                 });
 
+                // Se configura un temporizador para cambiar el texto automáticamente
+                this.time.addEvent({
+                    delay: 3000, // Cambia cada 3 segundos (ajusta según tus necesidades)
+                    callback: changeText,
+                    callbackScope: this,
+                    loop: true
+                });
+
+                
+
             }
+            
+            function changeText() {
+                    currentMessageIndex = (currentMessageIndex + 1) % messages.length;
+                    statusText.setText(messages[currentMessageIndex]);
+                }
+
 
 
         </script>
