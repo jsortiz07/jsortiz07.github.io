@@ -66,9 +66,14 @@
             function create() {
 
                 //  // Agregar instrucciones de texto
-                var instructionsText = this.add.text(20, 20, 'Arrastra y suelta los componentes en las áreas sombreadas.', {
+                var instructionsText = this.add.text(20, 20, '*Arrastra y suelta los componentes en las áreas sombreadas.', {
                     fontSize: '20px',
                     fill: '#ffffff'
+                });
+
+                var instructionsText = this.add.text(20, 45, '*Asegurate de que los cables queden bien conectados sin forzar tanto al conectarlos', {
+                    fontSize: '20px',
+                    fill: 'red'
                 });
 
                 var completionText = this.add.text(20, 30, '', {
@@ -123,13 +128,13 @@
 
                 // Crear un gráfico de geometría para el área sombreada de la ram1
                 var graphics = this.add.graphics();
-                ram1Zone = new Phaser.Geom.Circle(613, 550, 10); // Crea un círculo alrededor de la CPU
+                ram1Zone = new Phaser.Geom.Circle(595, 550, 10); // Crea un círculo alrededor de la CPU
                 graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
                 graphics.fillCircleShape(ram1Zone); // Dibuja el círculo
 
                 // Crear un gráfico de geometría para el área sombreada de la ram2
                 var graphics = this.add.graphics();
-                ram2Zone = new Phaser.Geom.Circle(560, 550, 10); // Crea un círculo alrededor de la CPU
+                ram2Zone = new Phaser.Geom.Circle(520, 550, 10); // Crea un círculo alrededor de la CPU
                 graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
                 graphics.fillCircleShape(ram2Zone); // Dibuja el círculo
 

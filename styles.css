@@ -328,6 +328,8 @@ textarea {
 }
 
 .img-content{
+    align-items: center;
+    text-align: center;
     width: 300px;
     height: 300px;
 }
@@ -337,6 +339,8 @@ textarea {
     margin-right: 5px;
     align-items: center;
     flex: 1;
+    text-align: center;
+    align-content: center;
 }
 
 .contenido-black table {
@@ -382,6 +386,7 @@ textarea {
 /*Boton flecha*/
 
 .btn {
+    display: inline-block;
     background-color: white;
     border: none;
     color: black;
