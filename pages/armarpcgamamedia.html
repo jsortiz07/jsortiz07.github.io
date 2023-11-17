@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.min.js"></script>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="../breadcrumb.js"></script>
+    <title>Armar Pc</title>
+</head>
+<body>
+    <iframe src="navbar.html" style="width:100%;height:110px;border:none;"></iframe>
+    <div class="breadcrumb">
+        <a href="home.html">Home</a> >
+        <a href="gbprocedimiento.html">Gama media</a> >
+        <span id="current-page">Nombre del Producto</span>
+    </div>
+    <div>
+        <script>
+            var config = {
+                type: Phaser.AUTO,
+                width: 1800,
+                height: 1400,
+                scene: {
+                    preload: preload,
+                    create: create
+                }
+            };
+
+            var game = new Phaser.Game(config);
+            var cpu; // Declare cpu as a global variable
+            var cpuZone; // Declare cpuZone as a global variable
+            var boardZone;
+            var text;
+            var motherboard;
+            var gpu
+
+            function preload() {
+                // Carga de imágenes
+                this.load.image('case', 'assets/case.png');
+                this.load.image('motherboard', 'assets/motherboard.png');
+                this.load.image('cpu', 'assets/cpu.png');
+                this.load.image('gpu', 'assets/gpu.png');
+            }
+
+            function create() {
+
+                if (!text) {
+                    text = this.add.text(117, 85, '', { fontSize: '32px', fill: '#ffffff' }); // Cambia el valor de fill a '#ffffff'
+                }
+
+                // Agregar la carcasa
+                var caseImage = this.add.image(434, 736, 'case');
+                caseImage.setDisplaySize(1100, 1100); // Establecer un ancho de 100 y un alto de 100
+
+
+                // Componentes de hardware
+                motherboard = this.add.image(1300, 300, 'motherboard');
+                cpu = this.add.image(1000, 450, 'cpu');
+                gpu = this.add.image(1300, 900, 'gpu');
+
+                // Habilitar arrastrar y soltar para componentes
+                motherboard.setInteractive({ draggable: true });
+                cpu.setInteractive({ draggable: true });
+                gpu.setInteractive({ draggable: true });
+
+                // Crear un gráfico de geometría para el área sombreada de la CPU
+                var graphics = this.add.graphics();
+                cpuZone = new Phaser.Geom.Circle(341, 579, 50); // Crea un círculo alrededor de la CPU
+                graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
+                graphics.fillCircleShape(cpuZone); // Dibuja el círculo
+
+                // Crear un gráfico de geometría para el área sombreada de la board
+                var graphics = this.add.graphics();
+                boardZone = new Phaser.Geom.Circle(334, 830, 50); // Crea un círculo alrededor de la CPU
+                graphics.fillStyle(0x000000, 0.5); // Establece el color de relleno y la opacidad
+                graphics.fillCircleShape(boardZone); // Dibuja el círculo
+
+                // Agrega el gráfico al escenario
+                this.add.existing(graphics);
+
+                this.input.setDraggable(motherboard);
+                this.input.setDraggable(cpu);
+                this.input.setDraggable(gpu);
+
+                // Función de verificación y ajuste automático solo para la CPU
+                this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+                    if (gameObject === cpu) {
+                        gameObject.x = dragX;
+                        gameObject.y = dragY;
+
+                        // Verifica la distancia entre la CPU y la posición de verificación
+                        var distance = Phaser.Math.Distance.Between(cpu.x, cpu.y, cpuZone.x, cpuZone.y);
+
+                        if (distance < 50) { // Ajusta este valor según la distancia deseada
+                            // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
+                            gameObject.x = cpuZone.x + 20;
+                            gameObject.y = cpuZone.y + 20;
+                            text.setText('¡CPU cerca de la posición de verificación!');
+                        } else {
+
+                            text.setText('fuera de posicion');
+                            this.input.setDraggable(motherboard);
+                        }
+                    }
+
+                    if (gameObject === motherboard) {
+                        gameObject.x = dragX;
+                        gameObject.y = dragY;
+
+                        // Verifica la distancia entre la CPU y la posición de verificación
+                        var distanceMotherboard = Phaser.Math.Distance.Between(motherboard.x, motherboard.y, boardZone.x, boardZone.y);
+
+                        if (distanceMotherboard < 50) { // Ajusta este valor según la distancia deseada
+                            // La CPU está lo suficientemente cerca, acomódala automáticamente en la posición de verificación
+                            gameObject.x = boardZone.x + 20;
+                            gameObject.y = boardZone.y + 20;
+                            text.setText('Board cerca de la posición de verificación!');
+                        } else {
+
+                            text.setText('fuera de posicion');
+                            
+                        }
+
+                    }
+                });
+
+                // Función de verificación
+                this.input.on('drop', function (pointer, gameObject) {
+                    if (Phaser.Geom.Intersects.RectangleToRectangle(gameObject.getBounds(), cpuZone.getBounds())) {
+                        // El componente se ha soltado en el área sombreada de la CPU
+                        gameObject.x = cpuZone.x + 20; // Ajusta las coordenadas según la posición deseada dentro del área sombreada
+                        gameObject.y = cpuZone.y + 20; // Ajusta las coordenadas según la posición deseada dentro del área sombreada
+                        // Realiza comprobaciones específicas para verificar si el componente es correcto
+                        // Por ejemplo, si motherboard, cpu y gpu están en las posiciones correctas, muestra un mensaje de victoria.
+                        if (gameObject === cpu) {
+                            this.text.setText('¡Ensamblado completo!');
+                        }
+                    } else {
+                        // El componente se soltó en un lugar incorrecto, puedes manejarlo aquí
+
+                    }
+                });
+
+                // Función de verificación final
+                this.input.on('dragend', function (pointer, gameObject) {
+                    if (Phaser.Geom.Intersects.RectangleToRectangle(gameObject.getBounds(), cpuZone.getBounds())) {
+                        // El componente se ha soltado en el área sombreada de la CPU
+                        gameObject.x = cpuZone.x;
+                        gameObject.y = cpuZone.y;
+                        if (gameObject === cpu) {
+                            text.setText('¡Ensamblado completo!');
+                        }
+                    }
+                });
+
+
+            }
+
+        </script>
+    </div>
+</body>
+</html>
